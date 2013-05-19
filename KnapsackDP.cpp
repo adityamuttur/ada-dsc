@@ -9,8 +9,10 @@ int W, N, X, Y, counter, temp, V[MAX][MAX], wt[MAX], val[MAX], arr[MAX];
 bool keep[MAX][MAX];
 
 int main() {
-	cin >> N >> W;
+	//cout << "Enter The Number Of Items And Max Weight Of Knapsack
+    cin >> N >> W;
 	
+    //Enter The Weight And Value Of Each Of The "N" Items
 	for (int i = 1; i <= N; i++)
 		cin >> wt[i] >> val[i];
 	for (int i = 0; i <= N; i++) {
@@ -38,12 +40,14 @@ int main() {
 	Y = W;
 	counter = 0;
 	
+    /*Value Matrix
 	for (int i = 0; i <= N; i++) {
 		for (int j = 1; j <= W; j++)
 			printf("%-6d", V[i][j]);
 		cout << endl;
 	}
-	
+	*/
+
 	while (Y > 0 && X > 0) {
 		if (keep[X][Y]) {
 			arr[counter++] = X;
