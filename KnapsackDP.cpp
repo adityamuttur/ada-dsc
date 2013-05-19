@@ -9,7 +9,8 @@ int W, N, X, Y, counter, temp, V[MAX][MAX], wt[MAX], val[MAX], arr[MAX];
 bool keep[MAX][MAX];
 
 int main() {
-	//cout << "Enter The Number Of Items And Max Weight Of Knapsack
+    
+    //cout << "Enter The Number Of Items And Max Weight Of Knapsack
     cin >> N >> W;
 	
     //Enter The Weight And Value Of Each Of The "N" Items
@@ -40,7 +41,8 @@ int main() {
 	Y = W;
 	counter = 0;
 	
-    /*Value Matrix
+    /*
+    Value Matrix
 	for (int i = 0; i <= N; i++) {
 		for (int j = 1; j <= W; j++)
 			printf("%-6d", V[i][j]);
