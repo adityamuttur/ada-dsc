@@ -13,7 +13,7 @@ using namespace std;
 
 const int INF = 2 << 10;
 
-int N, minCost[SIZE], adjMat[SIZE][SIZE];
+int N, minCostTo[SIZE], adjMat[SIZE][SIZE];
 vector < int  > shortestPath[SIZE];
 bool visited[SIZE];
 
@@ -33,8 +33,8 @@ void dijkstra(int source) {
             if (i == fromVertex)
                 continue;
 
-            if (minCost[fromVertex] + adjMat[fromVertex][i] < minCost[i]) {
-                minCost[i] = minCost[fromVertex] + adjMat[fromVertex][i];
+            if (minCostTo[fromVertex] + adjMat[fromVertex][i] < minCost[i]) {
+                minCostTo[i] = minCost[fromVertex] + adjMat[fromVertex][i];
                 shortestPath[i] = SP[fromVertex];
                 shortestPath[i].push_back(i);
                 q.push(i);
@@ -54,15 +54,16 @@ int main() {
             if (adjMat[i][j] == -1)
                 adjMat[i][j] = INF;
         }
-        minCost[i] = INF;
+        minCostTo[i] = INF;
     }
     
     //cout << "Enter Source: ";
     cin >> source;
+
     memset(visited, 0, SIZE*sizeof(bool));
-    
     shortestPath[source].push_back(source);
-    minCost[source] = 0;
+    minCostTo[source] = 0;
+
     dijkstra(source);
     
     for (int i = 0; i < N; i++) {
@@ -74,7 +75,7 @@ int main() {
             if (shortestPath[i][j] != i)
                 cout << "->";
         }
-        cout << ".  MinCost: " << minCost[i] << endl;
+        cout << ".  MinCost: " << minCostTo[i] << endl;
     }
     
     return 0;
