@@ -1,76 +1,114 @@
 #include <iostream>
-#include <climits>
-#include <cstdlib>
 #include <cstdio>
 #include <cstring>
+#include <algorithm>
+#include <queue>
+#define SIZE 100000
+using namespace std;
+
+typedef pair < int, int > endPoints;
+typedef pair < int, endPoints> path;
+
+int N, M, startVertex;
+vector < path > V[SIZE], MST;
+bool visited[SIZE];
+
+int prims() {
+    int minimumValue = 0, edgeCost, fromVertex, toVertex;
+    priority_queue < path, vector < path >, greater < path > > Q;
+	path temp;
+
+    memset(visited, 0, SIZE*sizeof(bool));	
+    Q.push(path(-1, endPoints(-1, -1)));
+	while (!Q.empty()) {
+		temp = Q.top();
+        Q.pop();
+        edgeCost   = temp.first == -1 ? 0 : temp.first;
+		fromVertex = temp.second.first == -1 ? startVertex : temp.second.first;
+        if (visited[fromVertex])
+			continue;
+        if (temp.second.first != -1)
+            MST.push_back(temp);
+		minimumValue += edgeCost;
+		visited[fromVertex] = 1;
+        for (int j = 0; j < V[fromVertex].size(); j++) {
+            toVertex = V[fromVertex][j].second.second;
+			edgeCost = V[fromVertex][j].first;
+			if (!visited[toVertex])
+				Q.push(path(edgeCost, endPoints(toVertex, fromVertex)));
+		}
+	}
+    return minimumValue;
+}
+int main() {
+    int x, y, cost; 
+    
+    //cout << "Enter Number Of Vertices And Number Of Edges: ";
+    cin >> N >> M;
+    for (int i = 0; i < M; i++) {
+        //cout << "Enter Start Vertex End Vertex Cost: ";
+        cin >> x >> y >> cost;
+        if (i == 0)
+            startVertex = x;
+        V[x].push_back(path(cost, endPoints(x, y)));
+        V[y].push_back(path(cost, endPoints(y, x)));
+    }
+    cout << "Minimum Cost: " << prims() << endl;
+    for (vector < path > :: iterator p = MST.begin(); p != MST.end(); p++)
+        cout << (*p).second.first << "<->" << (*p).second.second << " " << (*p).first << endl;
+    return 0;
+}
+
+#include <iostream>
 #include <algorithm>
 
 #define MAX 1000
 
 using namespace std;
 
-struct vertex {
-	int name;
-	int from;
-	int distance;
-}vertices[MAX];
+int N, arr[MAX];
 
-int adjMat[MAX][MAX], N, start;
+void input() {
+    cin >> N;
+    for (int i = 0; i < N; i++)
+        cin >> arr[i];
+}
 
-int mySort(const void *a, const void *b) {
-	return (*(vertex*)a).distance - (*(vertex*)b).distance;
+void maxHeapify(int size, int start) {
+    int l = 2*start+1, r = 2*start+2, largest;
+    if (l <= size-1 && arr[l] > arr[start])
+        largest = l;
+    else
+        largest = start;
+    if (r <= size && arr[r] > arr[largest])
+        largest = r;
+    if (largest != start) {
+        swap(arr[start], arr[largest]);
+        maxHeapify(size, largest);
+    }
+}
+
+void buildMaxHeap() {
+    int size = N-1;
+    for (int i = size/2; i >= 0; i--)
+        maxHeapify(size, i);
 }
 
 int main() {
-	int chk, cur, len;
-
-	cin >> N;
-	len = N;
-	for (int i = 0; i < N; i++) {
-		for (int j = i+1; j < N; j++) {
-			if (i == j)
-				continue;
-			cout << "Is there a vertex form " << i+1 << " to " << j+1 << "?(size/0) ";
-			cin >> chk;
-			if (chk) {
-				adjMat[i][j] = chk;
-			}
-			else
-				adjMat[i][j] = -1;
-		}
-		vertices[i].name = i+1;
-		vertices[i].from = 0;
-		vertices[i].distance = INT_MAX;
-	}
-	
-	cout << "Enter Starting Vertex: ";
-	cin >> start;
-
-	for (int i = 0; i < N; i++)
-		if (vertices[i].name == start) {
-			cur = vertices[i].name-1;
-			swap(vertices[i], vertices[--N]);
-			break;
-		}
-	do {
-		for (int i = 0; i < N; i++) {
-			if (adjMat[cur][i] != -1)
-				for (int j = 0; j < N; j++)
-					if (i+1 == vertices[j].name)
-						if (vertices[j].distance > adjMat[cur][i]) {
-							vertices[j].distance = adjMat[cur][i];
-							vertices[j].from = cur+1;
-						}
-		}
-		//cout << N << endl;;
-		qsort(vertices, N, sizeof(vertices[0]), mySort);
-		cur = vertices[0].name-1;
-		swap(vertices[0], vertices[--N]);
-		cout << vertices[i].name << "  " << vertices[i].from << "  " << vertices[i].distance << endl;
-	}while(N >= 0);
-	
-	for (int i = 0; i < len; i++)
-		cout << vertices[i].name << "  " << vertices[i].from << "  " << vertices[i].distance << endl;
-	
-	return 0;
+    int size;
+    
+    input();
+    buildMaxHeap();
+    
+    size = N-1;
+    for (int i = N-1; i >= 1; i--) {
+        swap(arr[0], arr[size]);
+        size--;
+        maxHeapify(size, 0);
+    }
+    for (int i = 0; i < N; i++)
+        cout << arr[i] << "  ";
+    cout << endl;
+    
+    return 0;
 }
