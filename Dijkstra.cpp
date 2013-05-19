@@ -1,45 +1,81 @@
 #include <iostream>
-#include <stdint.h>
+#include <algorithm>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <utility>
+#include <queue>
+#include <vector>
 
 using namespace std;
 
-int n;
-uint64_t edges[1000][1000], solutions[1000];
-bool done[1000];
+#define SIZE 1000
 
-void dijkstra(int start) {
-	for (int i = 1; i <= N; i++) {
-		for (int j = 1; j <= N; j++) {
-			
-			if (solutions[i] + start[start][]);
-		}
-	}
+const int INF = 2 << 10;
 
+int N, minCost[SIZE], adjMat[SIZE][SIZE];
+vector < int  > shortestPath[SIZE];
+bool visited[SIZE];
+
+
+void dijkstra(int source) {
+    priority_queue < int, vector < int >, greater < int > > q;
+    int fromVertex;
+    
+    q.push(source);
+    while (!q.empty()) {
+        fromVertex = q.top();
+        q.pop();
+        if (visited[fromVertex])
+            continue;
+        visited[fromVertex] = 1;
+        for (int i = 0; i < N; i++) {
+            if (i == fromVertex)
+                continue;
+
+            if (minCost[fromVertex] + adjMat[fromVertex][i] < minCost[i]) {
+                minCost[i] = minCost[fromVertex] + adjMat[fromVertex][i];
+                shortestPath[i] = SP[fromVertex];
+                shortestPath[i].push_back(i);
+                q.push(i);
+            }
+        }
+    }
 }
-int main() {
-	int choice;
-	
-	cin >> N;
-	
-	for (int i = 1; i <= N; i++) {
-		for (int j = 1; j <= N; j++) {
-			cout << "Is There An Edge Between " << i << " And " << j << ": ";
-			cin >> choice;
-			if (choice)
-				cin >> edges[i][j];
-			else
-				edge[i][j] = INT_MAX;
 
-		}
-		solutions[i] = 0;
-	}
-	
-	cin >> start;
-	
-	dijkstra(start);
-	
-	for (int i = 1; i <= N; i++)
-		cin >> edges[i].a >> edges[i].b >> edges[i].edgeWeight;
-	
-	return 0;
+int main() {
+    int source;
+    
+    cin >> N;
+    //cout << "Enter Adjacency Matrix: ";
+    for (int i  = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            cin >> adjMat[i][j];
+            if (adjMat[i][j] == -1)
+                adjMat[i][j] = INF;
+        }
+        minCost[i] = INF;
+    }
+    
+    //cout << "Enter Source: ";
+    cin >> source;
+    memset(visited, 0, SIZE*sizeof(bool));
+    
+    shortestPath[source].push_back(source);
+    minCost[source] = 0;
+    dijkstra(source);
+    
+    for (int i = 0; i < N; i++) {
+        if (i == source)
+            continue;
+        cout << "Source To " << i << ": ";
+        for (int j = 0; j < shortestPath[i].size(); j++) {
+            cout << shortestPath[i][j];
+            if (shortestPath[i][j] != i)
+                cout << "->";
+        }
+        cout << ".  MinCost: " << minCost[i] << endl;
+    }
+    
+    return 0;
 }
