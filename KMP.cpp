@@ -1,8 +1,10 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
-#define MAX 19000000
+
 using namespace std;
+
+#define MAX 19000000
 
 char pattern[MAX], text[MAX];
 int f[MAX];
@@ -43,6 +45,8 @@ int KMPMatcher () {
 
 int main () {
     int found;
+    
+    //cout << "Enter Text And Pattern";
     cin >> (text + 1) >> (pattern + 1);
     
     generatePrefix ();
@@ -51,5 +55,6 @@ int main () {
         cout << "Pattern Not Found In Text" << endl;
     else
         cout << "Pattern Found " << found << " Times" << endl;
+    
     return 0;
 }
