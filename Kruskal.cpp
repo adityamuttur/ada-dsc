@@ -12,6 +12,7 @@ struct edge {
     int cost;
 };
 
+//Sort by Cost
 bool operator < (edge a, edge b) {
     return a.cost < b.cost;
 }
@@ -25,14 +26,14 @@ int main() {
     
     cin >> N >> M;
 
-    //edges are numbered from 1...N
+    //Input 'M' Edges. Vertices from 1..N
     for (int i = 0; i < M; i++) {
         cin >> temp.x >> temp.y >> temp.cost;
         v.push_back(temp);
     }
     sort(v.begin(), v.end());
     
-    //connectivity of vertices
+    //connectivity of vertices. Edges are numbered from 1...N
     for (int i = 1; i <= N; i++)
         connected[i] = i;
     
@@ -40,7 +41,7 @@ int main() {
     for (int i = 0; i < v.size(); i++) {
         temp = v[i];
 
-        //Check Connectivity Of Nodes
+        //Check Connectivity Of Nodes. Can use other better algos
         if (connected[temp.x] == connected[temp.y])
             continue;
         int t1 = connected[temp.x];
