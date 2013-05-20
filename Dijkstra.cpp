@@ -17,7 +17,6 @@ int N, minCostTo[SIZE], adjMat[SIZE][SIZE];
 vector < int  > shortestPath[SIZE];
 bool visited[SIZE];
 
-
 void dijkstra(int source) {
     priority_queue < int, vector < int >, greater < int > > q;
     int fromVertex;
@@ -30,12 +29,9 @@ void dijkstra(int source) {
             continue;
         visited[fromVertex] = 1;
         for (int i = 0; i < N; i++) {
-            if (i == fromVertex)
-                continue;
-
-            if (minCostTo[fromVertex] + adjMat[fromVertex][i] < minCost[i]) {
-                minCostTo[i] = minCost[fromVertex] + adjMat[fromVertex][i];
-                shortestPath[i] = SP[fromVertex];
+            if (minCostTo[fromVertex] + adjMat[fromVertex][i] < minCostTo[i]) {
+                minCostTo[i]    = minCostTo[fromVertex] + adjMat[fromVertex][i];
+                shortestPath[i] = shortestPath[fromVertex];
                 shortestPath[i].push_back(i);
                 q.push(i);
             }
@@ -56,7 +52,7 @@ int main() {
         }
         minCostTo[i] = INF;
     }
-    
+         
     //cout << "Enter Source: ";
     cin >> source;
 
@@ -69,6 +65,10 @@ int main() {
     for (int i = 0; i < N; i++) {
         if (i == source)
             continue;
+        if (shortestPath[i].size() == 0) {
+            cout << i << " Is Not Reachable From Source" << endl;
+            continue;
+        }
         cout << "Source To " << i << ": ";
         for (int j = 0; j < shortestPath[i].size(); j++) {
             cout << shortestPath[i][j];
