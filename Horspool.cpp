@@ -1,34 +1,40 @@
-#include <iostream>
+#include <iostream> 
 #include <cstring>
-#define MAX 10000
+#include <cstdlib>
+#include <cstdio>
+
 using namespace std;
 
-int table[200];
-char text[MAX], pattern[MAX];
+#define SIZE 100000
+#define MAXCHAR 1000
+
+int shiftTable[MAXCHAR], textLength, patternLength;
+char text[SIZE], pattern[SIZE];
 
 int main() {
-	int i, j, k, m, n;
-	cin >> text >> pattern;
-	
-	m = strlen(pattern);
-	n = strlen(text);
-	for (int i = 0; i < 200; i++)
-		table[i] = m;
-	for (int p = 0; p < m-1; p++)
-		table[pattern[p]] = m-p-1;
-	
-	i = m-1;
-	while (i < n) {
-		k = 0;
-		while(k < m && text[i-k] == pattern[m-1-k])
-			k++;
-		if (k == m) {
-			cout << "Pattern  Found at " << i-k+2 << endl;
-			return 0;
-		}
-		i += table[text[i]];
-	//	cout << table[text[i]] << endl;
-	}
-	cout << "Not Found" << endl;
-	return -1;
+    cin >> text >> pattern;
+    
+    //Shift Table
+    textLength    = strlen(text);
+    patternLength = strlen(pattern);
+    for (int i = 0; i < MAXCHAR; i++)
+        shiftTable[i] = patternLength;
+    for (int i = 0; i < patternLength - 1; i++)
+        shiftTable[pattern[i]] = patternLength - i - 1;
+    
+    //Matching string
+    int i = patternLength-1, k;
+    while (i < textLength) {
+        k = 0;
+        while(pattern[patternLength-k-1] == text[i-k] && k < patternLength)
+            k++;
+        if (k == patternLength) {
+            cout << "Pattern Found At: " << i-k+2 << endl;
+            return 0;
+        }
+        else
+            i += shiftTable[text[i-k]];
+    }
+    cout << "Not Found" << endl;
+    return -1;
 }
