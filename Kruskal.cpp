@@ -1,54 +1,62 @@
 #include <iostream>
 #include <algorithm>
-
-#define MAX 1000
+#include <vector>
 
 using namespace std;
 
+#define SIZE 100000
+
 struct edge {
-	int a;
-	int b;
-	int edgeWeight;
-}a[MAX];
+    int x;
+    int y;
+    int cost;
+};
 
-int nVertices, connected[MAX], N;
-bool used[MAX];
-
-int compare(const void *a, const void *b) {
-	return (*(edge *)a).edgeWeight - (*(edge *)b).edgeWeight;
+bool operator < (edge a, edge b) {
+    return a.cost < b.cost;
 }
 
+vector < edge > v, ans;
+int connected[SIZE], N, minCost;
+
 int main() {
-	int temp, total = 0;
+    int M;
+    edge temp;
+    
+    cin >> N >> M;
 
-	cin >> nVertices;
-	for (int i = 1; i <= nVertices; i++)
-		connected[i] = i;
+    //edges are numbered from 1...N
+    for (int i = 0; i < M; i++) {
+        cin >> temp.x >> temp.y >> temp.cost;
+        v.push_back(temp);
+    }
+    sort(v.begin(), v.end());
+    
+    //connectivity of vertices
+    for (int i = 1; i <= N; i++)
+        connected[i] = i;
+    
+    minCost = 0;
+    for (int i = 0; i < v.size(); i++) {
+        temp = v[i];
 
-	cin >> N;
-	for (int i = 1; i <= N; i++)
-		cin >> a[i].a >> a[i].b >> a[i].edgeWeight;
-	
-	qsort(a+1, N, sizeof(a[0]), compare);
-	
-	for (int i = 1; i <= N; i++) {
-		if (connected[a[i].a] != connected[a[i].b]) {
-			temp = connected[a[i].b];
-			for (int j = 1; j <= nVertices; j++)
-				if (connected[j] == temp)
-					connected[j] = connected[a[i].a];
-			used[i] = true;
-		}
-		else
-			used[i] = false;
-	}
+        //Check Connectivity Of Nodes
+        if (connected[temp.x] == connected[temp.y])
+            continue;
+        int t1 = connected[temp.x];
+        int t2 = connected[temp.y];
+        for (int j = 1; j <= N; j++)
+            if (connected[j] == t2)
+                connected[j] =  t1;
+        minCost += temp.cost;
+        
+        //Add edge To Solution
+        ans.push_back(temp);
+    }
+    
+    cout << "Minimum Cost: " << minCost << endl << "Edges Are: " << endl;  
+    for (int i = 0; i < ans.size(); i++)
+        cout << ans[i].x << " " << ans[i].y << " " << ans[i].cost << endl;
 
-	for (int i = 1; i <= N; i++)
-		if (used[i]) {
-			cout << a[i].a << "  " << a[i].b << "  " << a[i].edgeWeight << "  " << endl;
-			total += a[i].edgeWeight;
-		}
-	cout << "Total Weight = " << total << endl;
-	
-	return 0;
+    return 0;
 }
