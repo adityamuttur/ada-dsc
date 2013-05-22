@@ -33,7 +33,7 @@ int main() {
             return 0;
         }
         else
-            i += shiftTable[text[i-k]];
+            i += shiftTable[text[i]];
     }
     cout << "Not Found" << endl;
     return -1;
