@@ -5,8 +5,8 @@ This repository contains programs implementing some common algorithms and data s
 All programs are in C++ and have been run on GCC 4.6.3 compiler on Ubuntu.
 
 To compile the code on Linux/MacOSX terminal:
-	gcc -g <filename>.cpp -o <output_file>
+	gcc -g filename.cpp -o output_file_name
 
 To run the code:
-	./<output_file>
-
+	./output_file_name
+	
