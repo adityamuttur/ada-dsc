@@ -8,10 +8,13 @@ C/C++ Programs
 ---------------
 
 To compile the code on Linux/MacOSX terminal:
+
 	gcc -g filename.c -o output_file_name
+
 	g++ -g filename.cpp -o output_file_name
 
 To run the code:
+
 	./output_file_name
 
 
