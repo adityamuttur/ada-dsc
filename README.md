@@ -1,7 +1,7 @@
 Algorithms And Data Structures
 ===============================
 
-This repository contains programs implementing some common algorithms and data structures.
+This repository contains programs implementing some famous algorithms, data structures and some common problems.
 All C/C++ have been run on GCC 4.6.3 compiler on Ubuntu.
 
 C/C++ Programs
