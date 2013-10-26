@@ -1,5 +1,5 @@
-// To find the largest and smallest element in a give L, R range
-// in an array of elememts
+// To find the largest and smallest element in a give
+// L, R range in an array of elememts
 
 #include <iostream>
 #include <algorithm>
