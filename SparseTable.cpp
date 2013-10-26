@@ -9,8 +9,9 @@
 using namespace std;
 
 #define SIZE 1002
+#define MAX_LOG2_SIZE 11
 
-void min_sparse_table(int b[SIZE][SIZE], int n) {
+void min_sparse_table(int b[MAX_LOG2_SIZE][SIZE], int n) {
 	int y, k;
 
 	k = log2(n);
@@ -21,7 +22,7 @@ void min_sparse_table(int b[SIZE][SIZE], int n) {
 	}
 }
 
-inline int min_query(int b[SIZE][SIZE], int l, int r) {
+inline int min_query(int b[MAX_LOG2_SIZE][SIZE], int l, int r) {
 	int k, x;
 
 	k = log2(r - l + 1);
@@ -30,7 +31,7 @@ inline int min_query(int b[SIZE][SIZE], int l, int r) {
 	return min(b[k][l],b[k][r-x]);
 }
 
-void max_sparse_table(int c[SIZE][SIZE], int n) {
+void max_sparse_table(int c[MAX_LOG2_SIZE][SIZE], int n) {
 	int y, k;
 
 	k = log2(n);
@@ -41,7 +42,7 @@ void max_sparse_table(int c[SIZE][SIZE], int n) {
 	}
 }
 
-inline int max_query(int c[SIZE][SIZE], int l, int r) {
+inline int max_query(int c[MAX_LOG2_SIZE][SIZE], int l, int r) {
 	int k, x;
 
 	k = log2(r - l + 1);
@@ -51,7 +52,7 @@ inline int max_query(int c[SIZE][SIZE], int l, int r) {
 }
 
 int main() {
-	int N, b[SIZE][SIZE],c[SIZE][SIZE];
+	int N, b[MAX_LOG2_SIZE][SIZE],c[MAX_LOG2_SIZE][SIZE];
 	int Q, L, R;
 
 	printf("Enter N (max 1000): ");
